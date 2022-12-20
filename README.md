@@ -4,6 +4,9 @@
 # 🔏 Encriptador de texto
 
 <div align="center"><img src="img/logo.svg" width="64"/></div>
+<p align="center" >
+     <img width="500" heigth="300" src="https://user-images.githubusercontent.com/91544872/157673573-5e781ce9-601c-4ea3-9db1-b60bebf717aa.png">
+</p>
 
 <div align="center">
     <img src="https://img.shields.io/badge/JavaScript-5A5A5A?logo=javascript&logoColor=yelllow"/>
@@ -55,6 +58,8 @@ gaitober" => "gato"
 ### Extras:
 
 - Un botón que copie el texto encriptado/desencriptado para la sección de transferencia, o sea que tenga la misma funcionalidad del ctrl+C o de la opción "copiar" del menú de las aplicaciones.
+-
+---
 
 ### Autor:
 - George Herrada Farfán <br>
