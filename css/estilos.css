@@ -371,3 +371,39 @@ main{
         margin-left: 0;
     }
 }
+/*Pie de pagina*/
+.pie-pagina{
+    margin: 1m 0 0 0;
+    padding: 10px 0;
+    font-size: 12px;
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    
+}
+.pgn{
+    width: 25px;
+    margin: 5 25px;
+    padding: 5px 5px;
+    border-radius: 50%; 
+    
+}
+
+@media screen and (max-width: 400px) {
+    .pie-pagina{
+        font-size: 10px;
+    }
+}
+    .pgn{
+        width: 20px;
+        margin: 5 20px;
+        padding: 5px 5px;
+        border-radius: 50%;
+    }
+    
