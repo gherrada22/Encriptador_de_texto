@@ -1,81 +1,63 @@
-function encriptar(traduccion){
+const traduccion = {"a": "ai", "e": "enter", "i": "imes", "o": "ober", "u": "ufat"};
+
+const encript = (texto, traduccion = {}) => texto ? texto.split("").map(e => traduccion[e] || e).join("") : "";
+
+const decript = (texto, traduccion = {}) => {
+    let newText = texto;
+    for (let [key, value] of Object.entries(traduccion)) newText = newText.replace(new RegExp(value, "g"), key);
+    return newText;
+}
+
+const colocarValores = () => {
     document.querySelector("#warning").removeAttribute("style");
-    var textarea = document.querySelector("#texto");
-    const texto = textarea.value;
+    const texto = document.querySelector("#texto").value;
     var area_default = document.querySelector("#default");
     var area_result = document.querySelector("#result");
     var texto_out = document.querySelector("#texto_out");
-    if (texto != ""){
-        var out = ""
-        for(var i=0; i < texto.length; i++){
-            if(((texto[i] < 'a') || (texto[i] > 'z')) && (texto[i] != ' ')){
-                document.querySelector("#warning").style.color = "red";
-                document.querySelector("#warning").style.fontSize = "16px";
-                return;
-            }
-            else if((texto.length == 1 && texto == " ") || texto.replace(/ /g, "") == ""){
-                area_default.classList.remove("invisible");
-                area_result.classList.add("invisible");
-                return;
-            }
-            if(texto[i] == 'a'){
-                out += traduccion["a"] ;
-            }
-            else if(texto[i] == 'e'){
-                out += traduccion["e"];
-            }
-            else if(texto[i] == 'i'){
-                out += traduccion["i"]; 
-            }
-            else if(texto[i] == 'o'){
-                out += traduccion["o"]; 
-            }
-            else if(texto[i] == 'u'){
-                out += traduccion["u"]; 
-            }
-            else{
-                out += texto[i];
-            }
-        }
-
-        area_default.classList.add("invisible");
-        area_result.classList.remove("invisible");
-        texto_out.innerHTML = out;
+    return {
+        texto,
+        area_result,
+        area_default,
+        texto_out
     }
+}
 
+function encriptar(traduccion){
+    let {texto, area_result, area_default, texto_out} = colocarValores();
+    if (!texto) return;
+
+    if(/[A-Záéíóú]|[^\w ]/.test(texto)){
+            document.querySelector("#warning").style.color = "red";
+            document.querySelector("#warning").style.fontSize = "16px";
+            return;
+    } else if(/^ +$/.test(texto)) {
+            area_default.classList.remove("invisible");
+            area_result.classList.add("invisible");
+            return;
+    }
+    area_default.classList.add("invisible");
+    area_result.classList.remove("invisible");
+    texto_out.innerHTML = encript(texto, traduccion);
+    
     return;
-
 }
 
 function desencriptar(traduccion){
-    document.querySelector("#warning").removeAttribute("style");
-    var textarea = document.querySelector("#texto");
-    var texto = textarea.value;
-    var area_default = document.querySelector("#default");
-    var area_result = document.querySelector("#result");
-    var texto_out = document.querySelector("#texto_out");
-    if (texto != ""){
-        for(var i=0; i < texto.length; i++){
-            if(((texto[i] < 'a') || (texto[i] > 'z')) && (texto[i] != ' ')){
-                document.querySelector("#warning").style.color = "red";
-                document.querySelector("#warning").style.fontSize = "16px";
-                return;
-            }
-            else if((texto.length == 1 && texto == " ") || texto.replace(/ /g, "") == ""){
-                area_default.classList.remove("invisible");
-                area_result.classList.add("invisible");
-                return;
-            }
-        }
-        area_default.classList.add("invisible");
-        area_result.classList.remove("invisible");
-        texto = texto.replace(new RegExp(traduccion["a"], "g"), "a");
-        texto = texto.replace(new RegExp(traduccion["e"], "g"), "e");
-        texto = texto.replace(new RegExp(traduccion["i"], "g"), "i");
-        texto = texto.replace(new RegExp(traduccion["o"], "g"), "o");
-        texto = texto.replace(new RegExp(traduccion["u"], "g"), "u");
-        texto_out.innerHTML = texto;
+    let {texto, area_result, area_default, texto_out} = colocarValores();
+    if(!texto) return;
+
+    if (/[A-Záéíóú]|[^\w ]/.test(texto)) {
+            document.querySelector("#warning").style.color = "red";
+            document.querySelector("#warning").style.fontSize = "16px";
+            return;
+    } else if(/^ +$/.test(texto)) {
+            area_default.classList.remove("invisible");
+            area_result.classList.add("invisible");
+            return;
     }
+    area_default.classList.add("invisible");
+    area_result.classList.remove("invisible");
+    texto_out.innerHTML = decript(texto, traduccion);
     return;
 }
 
@@ -84,12 +66,6 @@ function clipboard(){
     navigator.clipboard.writeText(texto_out.value);
 }
 
-const enc = document.querySelector('#enc');
-const des = document.querySelector('#des');
-const copy = document.querySelector('#copiar');
-
-var traduccion = {"a": "ai", "e": "enter", "i": "imes", "o": "ober", "u": "ufat"};
-
-enc.addEventListener( 'click', function() {encriptar(traduccion);} );
-des.addEventListener( 'click', function() {desencriptar(traduccion);} );
-copy.addEventListener( 'click', function() {clipboard();} );
+const enc = document.querySelector('#enc'); enc.onclick = () => {encriptar(traduccion)};
+const des = document.querySelector('#des'); des.onclick = () => {desencriptar(traduccion)};
+const copy = document.querySelector('#copiar'); copy.onclick = () => {clipboard(traduccion)};
